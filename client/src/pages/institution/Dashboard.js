@@ -383,7 +383,7 @@ export default function InstitutionDashboard() {
   const [transcripts, setTranscripts] = useState({});
   const viewResults = async (studentId) => {
     try {
-      const API = process.env.REACT_APP_API_BASE || 'http://localhost:4000';
+      const API = process.env.REACT_APP_API_BASE || 'https://career-platform-2.onrender.com';
       const token = await window.firebaseAuthToken?.();
       const res = await fetch(`${API}/api/results/student/${studentId}`, {
         headers: { 'Authorization': token ? `Bearer ${token}` : '' }
