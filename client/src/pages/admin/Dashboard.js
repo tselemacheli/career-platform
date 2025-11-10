@@ -49,7 +49,7 @@ export default function AdminDashboard() {
   // Load student transcript documents from Firebase Storage
   const loadTranscript = async (studentId) => {
     try {
-      const API = process.env.REACT_APP_API_BASE || 'http://localhost:4000';
+      const API = process.env.REACT_APP_API_BASE || 'https://career-platform-2.onrender.com';
       const token = await window.firebaseAuthToken?.();
       const res = await fetch(`${API}/api/results/student/${studentId}/documents`, {
         headers: { 'Authorization': token ? `Bearer ${token}` : '' }
