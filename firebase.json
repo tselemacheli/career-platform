@@ -9,7 +9,7 @@
     "rules": "storage.rules",
     "cors": [
       {
-        "origin": ["https://career-platform-2.onrender.com"],
+        "origin": ["https://career-platform-2.onrender.com","http://localhost:3000"],
         "method": ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"],
         "responseHeader": [
           "Content-Type",
