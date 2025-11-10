@@ -1,5 +1,5 @@
 
-const API = process.env.REACT_APP_API_BASE || 'http://localhost:4000';
+const API = process.env.REACT_APP_API_BASE || 'https://career-platform-2.onrender.com';
 
 export async function api(path, method = 'GET', body) {
   const token = await window.firebaseAuthToken?.();
