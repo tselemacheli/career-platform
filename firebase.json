@@ -1,0 +1,26 @@
+{
+  "firestore": {
+    "database": "(default)",
+    "location": "nam5",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "storage": {
+    "rules": "storage.rules",
+    "cors": [
+      {
+        "origin": ["http://localhost:3000"],
+        "method": ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"],
+        "responseHeader": [
+          "Content-Type",
+          "Access-Control-Allow-Origin",
+          "x-goog-resumable"
+        ],
+        "maxAgeSeconds": 3600
+      }
+    ]
+  },
+  "database": {
+    "rules": "database.rules.json"
+  }
+}
