@@ -1,6 +1,6 @@
 [
   {
-    "origin": ["http://localhost:3000", "https://lesotho-career.web.app"],
+    "origin": ["http://localhost:3000", "https://lesotho-career.web.app","https://career-platform-2.onrender.com"],
     "method": ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"],
     "responseHeader": [
       "Content-Type",
