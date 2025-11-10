@@ -1,0 +1,13 @@
+[
+  {
+    "origin": ["http://localhost:3000", "https://lesotho-career.web.app"],
+    "method": ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"],
+    "responseHeader": [
+      "Content-Type",
+      "Access-Control-Allow-Origin",
+      "x-goog-resumable",
+      "Authorization"
+    ],
+    "maxAgeSeconds": 3600
+  }
+]

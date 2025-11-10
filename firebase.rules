@@ -1,0 +1,57 @@
+
+// Firestore security rules (baseline). Adjust to your project and tighten as needed.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.role == 'admin';
+    }
+
+    match /users/{uid} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && request.auth.uid == uid || isAdmin();
+    }
+
+    match /institutions/{doc} {
+      allow read: if true;
+      allow write: if isAdmin() || (isSignedIn() && request.auth.token.role == 'institution');
+    }
+
+    match /faculties/{doc} {
+      allow read: if true;
+      allow write: if isAdmin() || (isSignedIn() && request.auth.token.role == 'institution');
+    }
+
+    match /courses/{doc} {
+      allow read: if true;
+      allow write: if isAdmin() || (isSignedIn() && request.auth.token.role == 'institution');
+    }
+
+    match /applications/{doc} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.auth.token.role == 'student';
+      allow update, delete: if isSignedIn() && (request.auth.token.role == 'student' || request.auth.token.role == 'institution' || isAdmin());
+    }
+
+    match /companies/{doc} {
+      allow read: if true;
+      allow write: if isAdmin() || (isSignedIn() && request.auth.token.role == 'company');
+    }
+
+    match /jobs/{doc} {
+      allow read: if true;
+      allow write: if isAdmin() || (isSignedIn() && request.auth.token.role == 'company');
+    }
+
+    match /notifications/{doc} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /documents/{doc} {
+      allow read, write: if isSignedIn();
+    }
+  }
+}
