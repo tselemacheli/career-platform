@@ -28,46 +28,16 @@ services:
         source: /static/media/*
         destination: /static/media/*
       
-      # Authentication routes - serve index.html so React Router can handle them
+      # Serve manifest and other asset files directly
       - type: rewrite
-        source: /auth/login
-        destination: /index.html
+        source: /manifest.json
+        destination: /manifest.json
       
       - type: rewrite
-        source: /auth/register
-        destination: /index.html
+        source: /favicon.ico
+        destination: /favicon.ico
       
-      - type: rewrite
-        source: /auth/verify-email
-        destination: /index.html
-      
-      - type: rewrite
-        source: /auth/reset-password
-        destination: /index.html
-      
-      # Role-based routes - serve index.html so React Router can handle them
-      - type: rewrite
-        source: /admin/*
-        destination: /index.html
-      
-      - type: rewrite
-        source: /company/*
-        destination: /index.html
-      
-      - type: rewrite
-        source: /institution/*
-        destination: /index.html
-      
-      - type: rewrite
-        source: /student/*
-        destination: /index.html
-      
-      # Root route
-      - type: rewrite
-        source: /
-        destination: /index.html
-      
-      # Catch-all for SPA - this is essential for all other routes
+      # For SPA routing, serve index.html for all non-asset routes
       - type: rewrite
         source: /*
         destination: /index.html
