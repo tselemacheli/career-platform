@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Link, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import AuthProvider, { useAuth } from './AuthContext';
 import Landing from './pages/Landing';
 import Login from './pages/auth/Login';
@@ -51,6 +51,7 @@ function Nav() {
   const { user } = useAuth();
   const [profile, setProfile] = useState(null);
   const nav = useNavigate();
+  const location = useLocation(); // Add this to track current location
   const [showSettings, setShowSettings] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
   const [showChangePassword, setShowChangePassword] = useState(false);
@@ -210,6 +211,22 @@ function Nav() {
       console.error("❌ Logout error:", e);
     }
   };
+
+  // Save user's last location when it changes
+  useEffect(() => {
+    if (user && location.pathname !== '/login' && location.pathname !== '/register') {
+      try {
+        localStorage.setItem('lastLocation', JSON.stringify({
+          pathname: location.pathname,
+          search: location.search,
+          hash: location.hash,
+          timestamp: Date.now()
+        }));
+      } catch (e) {
+        console.warn('Could not save last location', e);
+      }
+    }
+  }, [location, user]);
 
   return (
     <div className="nav container">
@@ -423,11 +440,31 @@ function AutoRedirect() {
   const { user, loading } = useAuth();
   const [profile, setProfile] = useState(null);
   const nav = useNavigate();
-
+  
   useEffect(() => {
     if (loading || !user) return;
+    
     (async () => {
       try {
+        // Try to restore last location first
+        const lastLocationStr = localStorage.getItem('lastLocation');
+        if (lastLocationStr) {
+          try {
+            const lastLocation = JSON.parse(lastLocationStr);
+            // Only restore if it was within the last 24 hours
+            if (Date.now() - lastLocation.timestamp < 24 * 60 * 60 * 1000) {
+              // Don't redirect back to auth pages
+              if (!lastLocation.pathname.startsWith('/auth')) {
+                nav(lastLocation.pathname + lastLocation.search + lastLocation.hash);
+                return;
+              }
+            }
+          } catch (e) {
+            console.warn('Could not parse last location', e);
+          }
+        }
+        
+        // Fallback to role-based redirect
         const me = await getMe();
         setProfile(me.user);
         const role = me.user?.role;
