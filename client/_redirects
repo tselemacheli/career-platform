@@ -1,0 +1,23 @@
+# Authentication routes
+/auth/login    /index.html    200
+/auth/register    /index.html    200
+/auth/verify-email    /index.html    200
+/auth/reset-password    /index.html    200
+
+# Admin routes
+/admin/*    /index.html    200
+
+# Company routes
+/company/*    /index.html    200
+
+# Institution routes
+/institution/*    /index.html    200
+
+# Student routes
+/student/*    /index.html    200
+
+# Root route
+/    /index.html    200
+
+# Catch-all for any other routes
+/*    /index.html    200
